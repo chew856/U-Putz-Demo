@@ -10,15 +10,15 @@ import {
 import { getSettings, getBookingsForDate, getOverridesForDate, insertBooking, dbEnabled,
   createHold, releaseHold, confirmHold, cleanupExpiredHolds, upsertCustomer,
   customerHoursByContact, bookingExistsForPI, adjustPoints, awardBookingPoints } from './lib/db.js';
-import dbQuery from './api/db.js';
-import signWaiver from './api/sign-waiver.js';
-import confirmBooking from './api/confirm-booking.js';
-import membership from './api/membership.js';
-import hourCards from './api/hour-cards.js';
-import points from './api/points.js';
-import bookingSelfService from './api/booking.js';
+import dbQuery from './lib/api/db.js';
+import signWaiver from './lib/api/sign-waiver.js';
+import confirmBooking from './lib/api/confirm-booking.js';
+import membership from './lib/api/membership.js';
+import hourCards from './lib/api/hour-cards.js';
+import points from './lib/api/points.js';
+import bookingSelfService from './lib/api/booking.js';
 
-// Local dev server. On Vercel the same logic runs as serverless functions in /api.
+// Local dev server. On Vercel the same app runs as a single serverless function (api/index.js).
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const { PORT = 4242, STRIPE_WEBHOOK_SECRET } = process.env;
 
@@ -47,7 +47,8 @@ app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, 
       return res.status(400).send(`Webhook Error: ${err.message}`);
     }
   } else {
-    event = JSON.parse(req.body.toString());
+    // Locally req.body is the raw Buffer; on Vercel the platform pre-parses it to an object.
+    event = Buffer.isBuffer(req.body) ? JSON.parse(req.body.toString()) : req.body;
   }
   if (event.type === 'payment_intent.succeeded') {
     const pi = event.data.object;
@@ -212,7 +213,12 @@ app.post('/api/release-hold', async (req, res) => {
   res.json({ ok: true });
 });
 
-app.listen(PORT, () => {
-  console.log(`\n⛳  U-Puttz Amusement Centre booking demo running at  http://localhost:${PORT}`);
-  console.log(`    Manager portal:  http://localhost:${PORT}/admin\n`);
-});
+// On Vercel the app is served by api/index.js — only listen when running locally.
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`\n⛳  U-Puttz Amusement Centre booking demo running at  http://localhost:${PORT}`);
+    console.log(`    Manager portal:  http://localhost:${PORT}/admin\n`);
+  });
+}
+
+export default app;
