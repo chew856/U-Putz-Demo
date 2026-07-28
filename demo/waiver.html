@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>U-Puttz Amusement Centre — Participant Waiver</title>
+<link rel="icon" href="/assets/uputtz-badge.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root{ --black:#0d0d20;--near-black:#171734;--surface:#1b1b3c;--surface-2:#242449;--border:#2e2e58;
+    --white:#fff;--muted:#b9b9d6;--dim:#8181aa;--orange:#c3d82e;--danger:#ff5b5b;--ok:#4ec06a;--radius:16px; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  *{scrollbar-width:none;-ms-overflow-style:none}
+  *::-webkit-scrollbar{width:0;height:0;display:none}
+  body{background:radial-gradient(1200px 600px at 70% -10%,#24244e 0%,var(--black) 55%),var(--black);
+    color:var(--white);font-family:'Poppins',system-ui,sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased;
+    display:grid;place-items:center;padding:24px}
+  h1,h2,h3{font-family:'Poppins',sans-serif;letter-spacing:-.01em}
+  .card{width:100%;max-width:620px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:34px 34px 30px}
+  .logo{display:block;width:230px;height:auto;margin:0 auto 18px}
+  h1{font-size:24px;margin-bottom:6px;text-align:center}
+  .sub{color:var(--dim);font-size:13.5px;margin:0 auto 22px;line-height:1.55;text-align:center;max-width:460px}
+  .clauses{list-style:none;counter-reset:c;border-top:1px solid var(--border);margin-bottom:6px}
+  .clauses li{counter-increment:c;position:relative;padding:13px 0 13px 30px;border-bottom:1px solid var(--border);font-size:13.5px;line-height:1.55;color:#d6d6d6}
+  .clauses li:before{content:counter(c);position:absolute;left:0;top:13px;font-family:'Poppins';font-weight:700;font-size:12px;color:var(--orange);
+    width:22px;height:22px;line-height:22px;text-align:center;background:rgba(195,216,46,.10);border:1px solid rgba(195,216,46,.35);border-radius:7px}
+  .clauses b{color:#fff;font-weight:700}
+  .sign{margin-top:24px}
+  .sign label.fld{display:block;font-family:'Poppins';font-weight:700;font-size:12px;letter-spacing:.03em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+  .input{width:100%;background:var(--near-black);border:1px solid var(--border);border-radius:11px;padding:13px 14px;color:#fff;font-family:'Poppins';font-size:15px;outline:none;transition:.15s}
+  .input:focus{border-color:var(--orange)}
+  .input.invalid{border-color:var(--danger)}
+  .agree{display:flex;align-items:flex-start;gap:11px;margin-top:16px;cursor:pointer;font-size:13.5px;line-height:1.5;color:#d6d6d6}
+  .agree input{appearance:none;-webkit-appearance:none;flex:none;width:22px;height:22px;margin-top:1px;border:1.5px solid var(--dim);border-radius:6px;cursor:pointer;position:relative;transition:.15s}
+  .agree input:checked{background:var(--orange);border-color:var(--orange)}
+  .agree input:checked:after{content:'';position:absolute;left:7px;top:3px;width:5px;height:10px;border:solid #14142c;border-width:0 2px 2px 0;transform:rotate(45deg)}
+  .err{color:var(--danger);font-size:13px;margin-top:12px;min-height:18px}
+  .btn{display:block;width:100%;border:none;border-radius:11px;padding:15px;font-weight:700;font-size:15px;
+    font-family:'Poppins';cursor:pointer;transition:.15s;margin-top:8px;text-align:center;text-decoration:none}
+  .btn-primary{background:var(--orange);color:#14142c}.btn-primary:hover{background:#d5e94b}
+  .btn-primary:disabled{background:#2a2a52;color:#71719a;cursor:not-allowed}
+  .btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border);margin-top:14px}.btn-ghost:hover{color:#fff;border-color:var(--dim)}
+  .fine{color:var(--dim);font-size:11.5px;line-height:1.5;margin-top:16px;text-align:center}
+  .center{text-align:center}
+  .big{font-size:52px;line-height:1;margin:4px 0 12px}
+  .spin{color:var(--dim);text-align:center;padding:36px 0}
+  .hidden{display:none}
+  @media print{ body{background:#fff;color:#000} .card{border:none;max-width:none} .sign,.btn{display:none} .clauses li{color:#000} }
+</style>
+</head>
+<body>
+  <div class="card">
+    <img class="logo" src="/assets/uputtz-logo.png" alt="U-Puttz Amusement Centre" />
+    <div id="content"><div class="spin">Loading…</div></div>
+  </div>
+
+<script>
+const WAIVER_VERSION = 'v2';
+const $ = s => document.querySelector(s);
+const params = new URLSearchParams(location.search);
+// How the signer is identified: a customer id, a booking id, or their email (+ optional name).
+const ctx = {
+  customerId: params.get('c') || '',
+  bookingId:  params.get('b') || '',
+  email:      params.get('e') || '',
+  phone:      params.get('p') || '',
+  name:       params.get('n') || '',
+};
+const esc = s => String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const validEmail = e => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test((e||'').trim());
+const fmtDate = iso => { try { return new Date(iso).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}); } catch(e){ return iso; } };
+function render(html){ $('#content').innerHTML = html; }
+
+const CLAUSES = [
+  'I acknowledge that indoor golf simulation involves inherent risks, including but not limited to: errant golf shots, swinging clubs, equipment movement, tripping hazards, and physical activities that may result in personal injury. I voluntarily assume all such risks.',
+  'I agree to use all equipment responsibly and follow all instructions provided by staff. I am responsible for any damage caused by negligence, misuse, or reckless behaviour (including but not limited to: damage to screens, sensors, launch monitors, walls, TVs, furniture, or accessories). Repair/replacement charges may apply.',
+  'I agree that U-Puttz Amusement Centre, its owners, employees, and representatives are not liable for any injury, loss, or damage to persons or property resulting from my use of the Facility.',
+  '<b>Alcohol:</b> No outside alcohol is permitted inside the Facility at any time. Alcohol service, if purchased on site, is subject to legal regulations. Legal drinking age is 18+ in Manitoba, and government-issued ID may be required. U-Puttz Amusement Centre reserves the right to refuse alcohol service for any reason.',
+  'Outside food is permitted as long as it does not interfere with the safety or cleanliness of the Facility.',
+  'Indoor shoes only — no metal spikes, dirty shoes, or outdoor footwear allowed inside bays.',
+  'Only golfers swinging clubs are allowed inside the hitting mat zone.',
+  'Food &amp; drinks must remain behind the hitting area at all times.',
+  'I agree to behave respectfully toward staff and other guests. The Facility reserves the right to end any session immediately for unsafe, aggressive, or non-compliant behaviour with no refund.',
+  'I understand that surveillance cameras may be in operation for safety and security.',
+  'By completing a booking, I certify that I have read and understood this waiver. This agreement applies to all members of my group.',
+  'This waiver remains valid for all future visits under the same customer profile unless revoked in writing.',
+];
+
+function signedView(name, at){
+  render(`<div class="center">
+    <div class="big" style="color:var(--ok)">✓</div>
+    <h1>Waiver on file</h1>
+    <div class="sub">${name?esc(name)+', your':'Your'} participant waiver is signed and on file${at?` as of ${esc(fmtDate(at))}`:''}. It covers all your future visits to U-Puttz Amusement Centre — nothing else to do.</div>
+    <a class="btn btn-ghost" href="/">Back to booking site</a>
+  </div>`);
+}
+
+function formView(){
+  render(`
+    <h1>Participant Waiver &amp; Release</h1>
+    <div class="sub">Please read and sign the agreement below. You only need to do this once — it stays on file for all future visits.</div>
+    <ol class="clauses">${CLAUSES.map(c=>`<li>${c}</li>`).join('')}</ol>
+    <div class="sign">
+      <label class="fld" for="w-name">Full name</label>
+      <input class="input" id="w-name" placeholder="Type your full legal name" autocomplete="name" value="${esc(ctx.name)}" />
+      <label class="fld" for="w-email" style="margin-top:16px">Email</label>
+      <input class="input" id="w-email" type="email" placeholder="you@email.com" autocomplete="email" value="${esc(ctx.email)}" />
+      <label class="fld" for="w-phone" style="margin-top:16px">Phone <span style="text-transform:none;letter-spacing:0;color:var(--dim);font-weight:500">(optional)</span></label>
+      <input class="input" id="w-phone" type="tel" placeholder="(204) 000-0000" autocomplete="tel" value="${esc(ctx.phone)}" />
+      <label class="agree"><input type="checkbox" id="w-agree" />
+        <span>I have read and understood this waiver, and I agree to its terms on behalf of myself and all members of my group.</span></label>
+      <div class="err" id="w-err"></div>
+      <button class="btn btn-primary" id="w-submit" disabled>Sign &amp; submit</button>
+      <div class="fine">By clicking "Sign &amp; submit" you are signing this waiver electronically. Your name, email, the date, and the waiver version are recorded.</div>
+    </div>`);
+  const nameEl=$('#w-name'), emailEl=$('#w-email'), phoneEl=$('#w-phone'), agreeEl=$('#w-agree'), btn=$('#w-submit'), err=$('#w-err');
+  const sync=()=>{ btn.disabled = !(nameEl.value.trim().length>=2 && validEmail(emailEl.value) && agreeEl.checked); };
+  [nameEl,emailEl,phoneEl].forEach(el=>el.addEventListener('input',()=>{ el.classList.remove('invalid'); sync(); }));
+  agreeEl.addEventListener('change', sync);
+  btn.onclick=async()=>{
+    const name=nameEl.value.trim(), email=emailEl.value.trim(), phone=phoneEl.value.trim();
+    if(name.length<2){ err.textContent='Please enter your full name.'; nameEl.classList.add('invalid'); nameEl.focus(); return; }
+    if(!validEmail(email)){ err.textContent='Please enter a valid email so we can save your waiver to your profile.'; emailEl.classList.add('invalid'); emailEl.focus(); return; }
+    if(!agreeEl.checked){ err.textContent='Please check the box to agree.'; return; }
+    err.textContent=''; btn.disabled=true; btn.textContent='Submitting…';
+    let r;
+    try{
+      r = await (await fetch('/api/sign-waiver',{ method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ name, email, phone, version:WAIVER_VERSION, customerId:ctx.customerId, bookingId:ctx.bookingId }) })).json();
+    }catch(e){ r={ ok:false, error:'Network error — please try again.' }; }
+    if(r && r.ok){ signedView(name, r.signedAt); }
+    else { btn.disabled=false; btn.textContent='Sign & submit'; err.textContent=(r&&r.error)||'Something went wrong — please try again.'; }
+  };
+}
+
+async function load(){
+  // If we can identify the signer, check whether the waiver is already on file (phone first).
+  const q = ctx.customerId ? ('c='+encodeURIComponent(ctx.customerId))
+          : ctx.bookingId  ? ('b='+encodeURIComponent(ctx.bookingId))
+          : ctx.phone      ? ('p='+encodeURIComponent(ctx.phone))
+          : validEmail(ctx.email) ? ('e='+encodeURIComponent(ctx.email)) : '';
+  if(q){
+    try{
+      const r = await (await fetch('/api/sign-waiver?'+q)).json();
+      if(r && r.ok && r.signed){ signedView(r.name, r.signedAt); return; }
+    }catch(e){}
+  }
+  formView();
+}
+load();
+</script>
+</body>
+</html>

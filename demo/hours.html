@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>U-Puttz Amusement Centre — Hours Cards</title>
+<link rel="icon" href="/assets/uputtz-badge.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root{ --black:#0d0d20;--near-black:#171734;--surface:#1b1b3c;--surface-2:#242449;--border:#2e2e58;
+    --white:#fff;--muted:#b9b9d6;--dim:#8181aa;--orange:#c3d82e;--danger:#ff5b5b;--ok:#4ec06a;--radius:16px; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  *{scrollbar-width:none;-ms-overflow-style:none} *::-webkit-scrollbar{width:0;height:0;display:none}
+  body{background:radial-gradient(1200px 600px at 70% -10%,#24244e 0%,var(--black) 55%),var(--black);
+    color:var(--white);font-family:'Poppins',system-ui,sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased;padding:24px}
+  h1,h2,h3{font-family:'Poppins',sans-serif;letter-spacing:-.01em}
+  .wrap{max-width:940px;margin:0 auto}
+  header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:6px 0 26px}
+  header img{height:46px;width:auto}
+  .brand-fallback{font-family:'Poppins';font-weight:700;font-size:20px}
+  .brand-fallback .up{color:#f9a01c;margin-right:6px}
+  header a.back{color:var(--muted);text-decoration:none;font-size:13px}
+  header a.back:hover{color:#fff}
+  .head-block{max-width:640px;margin:6px auto 30px;text-align:center}
+  .eyebrow{font-family:'Poppins';font-weight:700;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--orange);margin-bottom:10px}
+  .head-block h1{font-size:32px;margin-bottom:10px}
+  .head-block .sub{color:#cfcfcf;font-size:15.5px;font-weight:500;line-height:1.65}
+  /* Fixed-width cards on centered wrap lines — partial rows stay symmetric. */
+  .cards{display:flex;flex-wrap:wrap;justify-content:center;gap:16px}
+  .hc{position:relative;width:296px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:26px 24px 22px;display:flex;flex-direction:column}
+  .hc.feat{border-color:rgba(195,216,46,.55);background:linear-gradient(180deg,rgba(195,216,46,.06),var(--surface) 45%)}
+  .feat-tag{position:absolute;top:-11px;left:22px;background:var(--orange);color:#14142c;font-family:'Poppins';font-weight:700;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:4px 12px}
+  @media(max-width:680px){ .hc{width:100%} }
+  .cdot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px;vertical-align:2px}
+  .hc-name{font-family:'Poppins';font-weight:700;font-size:16px;color:var(--muted);margin-bottom:14px;min-height:21px;line-height:1.3}
+  .hc-price{font-family:'Poppins';font-weight:700;font-size:38px;line-height:1;color:#fff}
+  .hc-sub{font-size:13.5px;color:var(--muted);margin-top:9px;line-height:1.5;padding-bottom:18px}
+  .btn-line{background:transparent;border:1px solid var(--orange);color:var(--orange)}
+  .btn-line:hover{background:rgba(195,216,46,.12)}
+  .how{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;max-width:940px;margin:34px auto 0;padding-top:26px;border-top:1px solid var(--border)}
+  .how-step{flex:1;min-width:220px;max-width:300px;color:var(--dim);font-size:13px;line-height:1.55}
+  .how-step b{display:block;font-family:'Poppins';color:var(--muted);font-size:13.5px;margin-bottom:4px}
+  .flex1{flex:1}
+  .btn{display:block;width:100%;border:none;border-radius:11px;padding:14px;font-weight:700;font-size:15px;font-family:'Poppins';cursor:pointer;transition:.15s;margin-top:18px;text-align:center;text-decoration:none}
+  .btn-primary{background:var(--orange);color:#14142c}.btn-primary:hover{background:#d5e94b}
+  .btn-primary:disabled{background:#2a2a52;color:#71719a;cursor:not-allowed}
+  .btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border)}.btn-ghost:hover{color:#fff;border-color:var(--dim)}
+  .card{max-width:460px;margin:0 auto;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:30px}
+  .card h2{font-size:22px;margin-bottom:4px}
+  .card .sub{color:var(--dim);font-size:13.5px;margin-bottom:20px;line-height:1.5}
+  .fld{display:block;font-family:'Poppins';font-weight:700;font-size:12px;letter-spacing:.03em;text-transform:uppercase;color:var(--muted);margin:16px 0 7px}
+  .fld:first-of-type{margin-top:0}
+  .input{width:100%;background:var(--near-black);border:1px solid var(--border);border-radius:11px;padding:13px 14px;color:#fff;font-family:'Poppins';font-size:15px;outline:none;transition:.15s}
+  .input:focus{border-color:var(--orange)} .input.invalid{border-color:var(--danger)}
+  .summary{background:var(--near-black);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+  .summary .s-name{font-family:'Poppins';font-weight:700}
+  .summary .s-price{font-family:'Poppins';font-weight:700;color:var(--orange)}
+  .err{color:var(--danger);font-size:13px;margin-top:12px;min-height:18px}
+  .ph-hint{font-size:12px;color:var(--dim);margin:5px 0 0 2px;min-height:15px;letter-spacing:.01em}
+  .ph-hint.on{color:#7ad492}
+  .fine{color:var(--dim);font-size:11.5px;line-height:1.5;margin-top:14px;text-align:center}
+  .center{text-align:center;max-width:460px;margin:0 auto}
+  .big{font-size:56px;line-height:1;margin:6px 0 14px} .big.ok{color:var(--ok)}
+  .note{border-radius:12px;padding:14px 16px;font-size:13.5px;line-height:1.5;margin-top:8px;background:rgba(240,82,61,.10);border:1px solid rgba(240,82,61,.4);color:#f0a093}
+  .spin{color:var(--dim);text-align:center;padding:50px 0}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <img src="/assets/uputtz-logo.png"
+             alt="U-Puttz Amusement Centre" onerror="this.style.display='none';document.getElementById('bf').style.display='inline-block'" />
+        <span id="bf" class="brand-fallback" style="display:none"><span class="up">U-PUTTZ</span> AMUSEMENT CENTRE</span>
+      </div>
+      <a class="back" href="/">← Back to booking</a>
+    </header>
+    <div id="content"><div class="spin">Loading hours cards…</div></div>
+  </div>
+
+<script>
+const $ = s => document.querySelector(s);
+const params = new URLSearchParams(location.search);
+const esc = s => String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const validEmail = e => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test((e||'').trim());
+// NANP (10 digits, optional leading 1) or international with country code (+44…, 0044…).
+const validPhone = p => { const raw=String(p||'').trim(); let d=raw.replace(/\D/g,''); const intl=raw.startsWith('+')||(d.startsWith('00')&&d.length>=12); if(intl&&d.startsWith('00')) d=d.slice(2); return (d.length===10&&!intl)||(d.length===11&&d[0]==='1')||(d.length>=11&&d.length<=15)||(intl&&d.length>=8&&d.length<=15); };
+/* Live country hint while typing a phone number — full ITU dial-code table, longest-prefix match. */
+const DIAL_CODES={'1':'Canada / United States','1242':'Bahamas','1246':'Barbados','1264':'Anguilla','1268':'Antigua & Barbuda','1284':'British Virgin Islands','1340':'US Virgin Islands','1345':'Cayman Islands','1441':'Bermuda','1473':'Grenada','1649':'Turks & Caicos','1658':'Jamaica','1664':'Montserrat','1670':'Northern Mariana Islands','1671':'Guam','1684':'American Samoa','1721':'Sint Maarten','1758':'St Lucia','1767':'Dominica','1784':'St Vincent & the Grenadines','1787':'Puerto Rico','1809':'Dominican Republic','1829':'Dominican Republic','1849':'Dominican Republic','1868':'Trinidad & Tobago','1869':'St Kitts & Nevis','1876':'Jamaica','1939':'Puerto Rico','7':'Russia / Kazakhstan','20':'Egypt','211':'South Sudan','212':'Morocco','213':'Algeria','216':'Tunisia','218':'Libya','220':'Gambia','221':'Senegal','222':'Mauritania','223':'Mali','224':'Guinea','225':'Ivory Coast','226':'Burkina Faso','227':'Niger','228':'Togo','229':'Benin','230':'Mauritius','231':'Liberia','232':'Sierra Leone','233':'Ghana','234':'Nigeria','235':'Chad','236':'Central African Republic','237':'Cameroon','238':'Cape Verde','239':'Sao Tome & Principe','240':'Equatorial Guinea','241':'Gabon','242':'Congo','243':'DR Congo','244':'Angola','245':'Guinea-Bissau','248':'Seychelles','249':'Sudan','250':'Rwanda','251':'Ethiopia','252':'Somalia','253':'Djibouti','254':'Kenya','255':'Tanzania','256':'Uganda','257':'Burundi','258':'Mozambique','260':'Zambia','261':'Madagascar','262':'Reunion / Mayotte','263':'Zimbabwe','264':'Namibia','265':'Malawi','266':'Lesotho','267':'Botswana','268':'Eswatini','269':'Comoros','27':'South Africa','290':'St Helena','291':'Eritrea','297':'Aruba','298':'Faroe Islands','299':'Greenland','30':'Greece','31':'Netherlands','32':'Belgium','33':'France','34':'Spain','350':'Gibraltar','351':'Portugal','352':'Luxembourg','353':'Ireland','354':'Iceland','355':'Albania','356':'Malta','357':'Cyprus','358':'Finland','359':'Bulgaria','36':'Hungary','370':'Lithuania','371':'Latvia','372':'Estonia','373':'Moldova','374':'Armenia','375':'Belarus','376':'Andorra','377':'Monaco','378':'San Marino','379':'Vatican City','380':'Ukraine','381':'Serbia','382':'Montenegro','383':'Kosovo','385':'Croatia','386':'Slovenia','387':'Bosnia & Herzegovina','389':'North Macedonia','39':'Italy','40':'Romania','41':'Switzerland','420':'Czechia','421':'Slovakia','423':'Liechtenstein','43':'Austria','44':'United Kingdom','45':'Denmark','46':'Sweden','47':'Norway','48':'Poland','49':'Germany','500':'Falkland Islands','501':'Belize','502':'Guatemala','503':'El Salvador','504':'Honduras','505':'Nicaragua','506':'Costa Rica','507':'Panama','508':'St Pierre & Miquelon','509':'Haiti','51':'Peru','52':'Mexico','53':'Cuba','54':'Argentina','55':'Brazil','56':'Chile','57':'Colombia','58':'Venezuela','590':'Guadeloupe','591':'Bolivia','592':'Guyana','593':'Ecuador','594':'French Guiana','595':'Paraguay','596':'Martinique','597':'Suriname','598':'Uruguay','599':'Curacao','60':'Malaysia','61':'Australia','62':'Indonesia','63':'Philippines','64':'New Zealand','65':'Singapore','66':'Thailand','670':'Timor-Leste','673':'Brunei','674':'Nauru','675':'Papua New Guinea','676':'Tonga','677':'Solomon Islands','678':'Vanuatu','679':'Fiji','680':'Palau','681':'Wallis & Futuna','682':'Cook Islands','683':'Niue','685':'Samoa','686':'Kiribati','687':'New Caledonia','688':'Tuvalu','689':'French Polynesia','690':'Tokelau','691':'Micronesia','692':'Marshall Islands','81':'Japan','82':'South Korea','84':'Vietnam','850':'North Korea','852':'Hong Kong','853':'Macau','855':'Cambodia','856':'Laos','86':'China','880':'Bangladesh','886':'Taiwan','90':'Turkey','91':'India','92':'Pakistan','93':'Afghanistan','94':'Sri Lanka','95':'Myanmar','960':'Maldives','961':'Lebanon','962':'Jordan','963':'Syria','964':'Iraq','965':'Kuwait','966':'Saudi Arabia','967':'Yemen','968':'Oman','970':'Palestine','971':'United Arab Emirates','972':'Israel','973':'Bahrain','974':'Qatar','975':'Bhutan','976':'Mongolia','977':'Nepal','98':'Iran','992':'Tajikistan','993':'Turkmenistan','994':'Azerbaijan','995':'Georgia','996':'Kyrgyzstan','998':'Uzbekistan'};
+function dialCountry(d){ for(const len of [4,3,2,1]){ const c=d.slice(0,len); if(DIAL_CODES[c]) return {code:c,name:DIAL_CODES[c]}; } return null; }
+function phoneCountryHint(v){
+  const raw=String(v||'').trim(); if(!raw) return '';
+  let d=raw.replace(/\D/g,'');
+  const intl=raw.startsWith('+')||d.startsWith('00');
+  if(intl){
+    if(d.startsWith('00')) d=d.slice(2);
+    if(!d) return 'Start with your country code';
+    const m=dialCountry(d);
+    if(m) return m.name+' (+'+m.code+')';
+    return d.length>=4 ? 'Unrecognized country code' : 'Keep typing your country code';
+  }
+  if(!d) return '';
+  if(d[0]==='0') return 'Starts with 0 — include your country code instead (e.g. +44…)';
+  if(d.length>=11&&d.length<=15){ const m=dialCountry(d); if(m) return m.name+' (+'+m.code+')'; }
+  if(d[0]==='1'){ const m=dialCountry(d); return (m&&m.code.length===4 ? m.name : 'Canada / United States')+' (+1)'; }
+  // Possible North American shape: area codes are [2-9][0-8]X. Caribbean +1 countries
+  // (Jamaica 876, Bahamas 242, …) are named via the 1+area entries in the table.
+  const nanpPossible = d.length===1 ? /^[2-9]/.test(d) : /^[2-9][0-8]/.test(d);
+  if(nanpPossible){
+    const m=dialCountry('1'+d);
+    let out=(m&&m.code.length===4 ? m.name : 'Canada / United States')+' (+1)';
+    if(DIAL_CODES[d]&&d!=='1') out+=' · +'+d+' is '+DIAL_CODES[d]+' — start with + for international';
+    return out;
+  }
+  // Can't be a Canada/US number — name the country code it matches, or nudge for one.
+  const m=dialCountry(d);
+  if(m&&m.code!=='1') return m.name+' (+'+m.code+') — add + so we read it as international';
+  return 'Not a Canada/US number — include your country code (e.g. +44…)';
+}
+function wirePhoneHint(inp,host){ if(!inp||!host) return; const upd=()=>{ const h=phoneCountryHint(inp.value); host.textContent=h; host.classList.toggle('on',/\(\+/.test(h)); }; inp.addEventListener('input',upd); upd(); }
+const money = c => '$'+(c/100).toFixed(c%100?2:0);
+const hoursLabel = h => (Math.round(h*10)/10) + (h===1?' hour':' hours');
+function render(html){ $('#content').innerHTML = html; }
+
+let CARDS = [];
+
+function cardsView(){
+  if(!CARDS.length){ render('<div class="center"><h1>Hours cards</h1><div class="note">No hours cards are available online right now — please check back soon or call the shop.</div><a class="btn btn-ghost" href="/" style="max-width:300px;margin:22px auto 0">Back to booking</a></div>'); return; }
+  // Merchandise the strongest deal: the card with the lowest effective $/hr gets the feature treatment.
+  const rate = c => c.hours>0 ? c.price_cents/c.hours : Infinity;
+  const best = CARDS.reduce((a,c)=> rate(c)<rate(a)?c:a, CARDS[0]);
+  render(`
+    <div class="head-block">
+      <div class="eyebrow">Prepaid sim time</div>
+      <h1>Hours cards</h1>
+      <div class="sub">Buy your sim time in bulk and pay less per hour. The hours live on your account — give us your phone number when you book and we'll draw from your balance.</div>
+    </div>
+    <div class="cards">${CARDS.map(c=>{
+      const perHr = c.hours>0 ? c.price_cents/c.hours : 0;
+      const feat = c.id===best.id && CARDS.length>1;
+      return `<div class="hc${feat?' feat':''}">
+        ${feat?'<div class="feat-tag">Best value</div>':''}
+        <div class="hc-name"><span class="cdot" style="background:${esc(c.color||'#4aa3ff')}"></span>${esc(c.name)}</div>
+        <div class="hc-price">${money(c.price_cents)}</div>
+        <div class="hc-sub">${hoursLabel(c.hours)} of sim time${perHr?` · works out to ${money(Math.round(perHr))}/hr`:''}</div>
+        <div class="flex1"></div>
+        <button class="btn ${feat?'btn-primary':'btn-line'} buy" data-id="${c.id}">Buy</button>
+      </div>`;
+    }).join('')}</div>
+    <div class="how">
+      <div class="how-step"><b>1 · Buy a card</b>Pick a size and pay online — takes a minute.</div>
+      <div class="how-step"><b>2 · It's tied to your number</b>The hours sit on your account under your phone number.</div>
+      <div class="how-step"><b>3 · Play it down</b>Book with that number and the time comes off your balance — no card needed.</div>
+    </div>`);
+  document.querySelectorAll('.buy').forEach(b=>b.onclick=()=>buyView(CARDS.find(c=>c.id===b.dataset.id)));
+}
+
+function buyView(card){
+  if(!card) return;
+  render(`
+    <div class="card">
+      <h2>${esc(card.name)}</h2>
+      <div class="sub">${hoursLabel(card.hours)} of sim time, credited to your account. Enter your details, then pay securely.</div>
+      <div class="summary"><span class="s-name">${hoursLabel(card.hours)}</span><span class="s-price">${money(card.price_cents)}</span></div>
+      <label class="fld" for="h-name">Full name</label>
+      <input class="input" id="h-name" placeholder="Your name" autocomplete="name" />
+      <label class="fld" for="h-phone">Phone</label>
+      <input class="input" id="h-phone" type="tel" placeholder="(204) 000-0000" autocomplete="tel" />
+      <div class="ph-hint" id="h-ph-hint"></div>
+      <label class="fld" for="h-email">Email <span style="text-transform:none;letter-spacing:0;color:var(--dim);font-weight:500">(for your receipt)</span></label>
+      <input class="input" id="h-email" type="email" placeholder="you@email.com" autocomplete="email" />
+      <div class="err" id="h-err"></div>
+      <button class="btn btn-primary" id="h-go">Continue to secure payment</button>
+      <button class="btn btn-ghost" id="h-back">Back to cards</button>
+      <div class="fine">You'll finish on Stripe's secure checkout. Your hours link to this phone number — use the same one when you book.</div>
+    </div>`);
+  $('#h-back').onclick=cardsView;
+  const nameEl=$('#h-name'), emailEl=$('#h-email'), phoneEl=$('#h-phone'), err=$('#h-err'), go=$('#h-go');
+  [nameEl,emailEl,phoneEl].forEach(el=>el.addEventListener('input',()=>el.classList.remove('invalid')));
+  wirePhoneHint(phoneEl, $('#h-ph-hint'));
+  go.onclick=async()=>{
+    const name=nameEl.value.trim(), email=emailEl.value.trim(), phone=phoneEl.value.trim();
+    if(name.length<2){ err.textContent='Please enter your name.'; nameEl.classList.add('invalid'); nameEl.focus(); return; }
+    if(!validPhone(phone)){ err.textContent='Please enter a valid phone number — your hours link to it (international: include your country code, e.g. +44…).'; phoneEl.classList.add('invalid'); phoneEl.focus(); return; }
+    if(!validEmail(email)){ err.textContent='Please enter a valid email for your receipt.'; emailEl.classList.add('invalid'); emailEl.focus(); return; }
+    err.textContent=''; go.disabled=true; go.textContent='Redirecting to payment…';
+    let r;
+    try{ r = await (await fetch('/api/hour-cards?action=checkout',{ method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ cardId:card.id, name, email, phone }) })).json(); }
+    catch(e){ r={ error:'Network error — please try again.' }; }
+    if(r && r.url){ window.location.href = r.url; return; }
+    go.disabled=false; go.textContent='Continue to secure payment';
+    err.textContent=(r && r.error) || 'Could not start checkout — please try again or call the shop.';
+  };
+}
+
+async function confirmView(sessionId){
+  render('<div class="spin">Adding your hours…</div>');
+  let r;
+  try{ r = await (await fetch('/api/hour-cards?action=confirm',{ method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ sessionId }) })).json(); }
+  catch(e){ r={ ok:false, error:'Network error.' }; }
+  if(r && r.ok){
+    const bal = r.balanceMin!=null ? (Math.round(r.balanceMin/6)/10) : null;   // minutes → hours (1 decimal)
+    render(`<div class="center">
+      <div class="big ok">✓</div>
+      <h1>${esc(hoursLabel(r.hours))} added!</h1>
+      <div class="sub" style="color:var(--muted);font-size:14.5px;line-height:1.6;margin:12px auto 0;max-width:430px">Your ${esc(r.cardName)} is credited to your account.${bal!=null?` You now have <b>${bal} hours</b> of sim time.`:''} Use the same phone number when you book and we'll draw from your hours.</div>
+      <a class="btn btn-primary" href="/" style="max-width:320px;margin:26px auto 0">Book a session</a>
+    </div>`);
+    history.replaceState({}, '', '/hours');
+  } else {
+    render(`<div class="center"><h1>Almost there</h1><div class="note">${esc((r&&r.error)||'We couldn’t add your hours.')} If you were charged, please contact the shop and we’ll sort it out right away.</div><a class="btn btn-ghost" href="/hours" style="max-width:300px;margin:22px auto 0">Back to hours cards</a></div>`);
+  }
+}
+
+async function load(){
+  if(params.get('success')==='1' && params.get('session_id')){ confirmView(params.get('session_id')); return; }
+  const canceled = params.get('canceled')==='1';
+  try{ const d = await (await fetch('/api/hour-cards?action=list')).json(); CARDS = (d.cards||[]).filter(c=>c.price_cents>0 && c.hours>0); }catch(e){ CARDS=[]; }
+  cardsView();
+  if(canceled){ history.replaceState({}, '', '/hours'); const n=document.createElement('div'); n.className='note'; n.style.maxWidth='520px'; n.style.margin='18px auto 0'; n.textContent='Payment canceled — you have not been charged. Pick a card to try again.'; $('#content').prepend(n); }
+}
+load();
+</script>
+</body>
+</html>
